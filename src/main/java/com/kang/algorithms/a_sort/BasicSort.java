@@ -28,8 +28,8 @@ public class BasicSort {
 	}
 	
 	
-	//插入排序
-	public static void insertionSort(int[] arr) {
+	//插入排序 -- 初级版本，效率偏低
+	public static void insertionSort1(int[] arr) {
 		int length = arr.length;
 		for(int i = 1; i < length; i ++ ) {
 			for( int j = i; j > 0 && arr[j] < arr[j - 1] ; j-- ) 
@@ -37,10 +37,26 @@ public class BasicSort {
 		}
 	}
 	
+	//插入排序 -- 升级版本，效率提高
+	public static void insertionSort2(int[] arr) {
+		int length = arr.length;
+		for(int i = 1; i < length; i ++ ) {
+			int elem = arr[i];
+			int j;
+			for( j = i; j > 0 && elem < arr[j - 1] ; j-- ) {
+				arr[j] = arr[j-1];
+			}
+			arr[j] = elem;
+		}
+	}
+	
+	
+	
 	public static void main(String[] args) throws Exception {
-		int[] arr = SortTestHelper.generateRandomArray(1000, 1, 400);
-		SortTestHelper.testSort(BasicSort.class, "insertionSort", arr);
-		SortTestHelper.printArray(arr);
+		int[] arr1 = SortTestHelper.generateRandomArray(50000, 1, 1000);
+		int[] arr2 = SortTestHelper.cloneArr(arr1);
+		SortTestHelper.testSort(BasicSort.class, "selectSort", arr1);
+		SortTestHelper.testSort(BasicSort.class, "insertionSort2", arr2);
 	}
 	
 	

@@ -75,6 +75,46 @@ public class SortTestHelper {
 		return true;
 	}
 	
+	/**
+	 * 数组的复制
+	 * @param data
+	 * @return
+	 */
+	public static int[] cloneArr(int[] data) {
+		int[] resultArr = new int[data.length];
+		for(int i = 0; i < data.length; i++ ) {
+			resultArr[i] = data[i];
+		}
+		return resultArr;
+	}
+	
+	/**
+	 * 生成近乎有序的数组
+	 * @param n 数组的长度
+	 * @param swapTimes 打乱的次数
+	 * @return
+	 */
+	public static int[] generateNearlyOrderedArray(int n, int swapTimes) {
+		int[] result = new int[n];
+		for(int i = 0; i < n; i ++ ) {
+			result[i] = i;
+		}
+		
+		Random rand = new Random(new Date().getTime());
+		for(int j = 0; j < swapTimes; j ++ ) {
+			int posx = rand.nextInt(n);
+			int posy = rand.nextInt(n);
+			swap(result,posx,posy);
+		}
+		return result;
+	}
+	
+	/**
+	 * 数组元素的交换
+	 * @param arr
+	 * @param i
+	 * @param j
+	 */
 	public static void swap(int[] arr,int i,int j) {
 		int temp = arr[i];
 		arr[i] = arr[j];
