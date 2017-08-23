@@ -1,12 +1,18 @@
 package com.kang.dataStructures.list;
+
+import java.util.Arrays;
+
 /**
- * @author kangrw
+ * @author momo
  * @time 2017年8月22日下午4:08:00
  * 
  * 顺序表的实现
  * 思路：
  * 1.基本储存单元  使用数组
- * 2.CRUD的实现 
+ *   构造函数中 ArrayList(length):表示list中可以保存多少个元素
+ * 2.CRUD的实现 ,并且为了简单起见
+ * 
+ * 3.其余方法有时间的补充
  */
 public class ArrayList {
 	
@@ -26,13 +32,19 @@ public class ArrayList {
 	
 	//新增元素
 	public void add(Object obj) {
-		int index = size();
-		data[index] = obj;
-		size ++ ;
-  	}
+		boolean b = checkCapacity();
+		if(!b) {
+			data = Arrays.copyOf(data, data.length * 2);
+		}
+		data[size ++ ] = obj;
+	}
 	
 	//在指定位置处增加元素
 	public void add(int index, Object obj) {
+		boolean b = checkCapacity();
+		if(!b) {
+			data = Arrays.copyOf(data, data.length * 2);
+		}
 		int tempCount = index;
 		int length = data.length;
 		Object[] newData = new Object[length+1];
@@ -49,7 +61,23 @@ public class ArrayList {
 	
 	//查找指定位置处的元素，index是下标
 	public Object get(int index) {
+		if(index >= data.length) {
+			return null;
+		}
 		return data[index];
+	}
+	
+	// 修改指定位置处的元素
+	public Object set(int index,Object obj) {
+		if(index >= data.length) {
+			Object[] newDate = Arrays.copyOf(data, index*2 -1);
+			newDate[index] = obj;
+			data = newDate;
+			return null;
+		}
+		Object old = data[index];
+		data[index] = obj;
+		return old;
 	}
 	
 	//删除指定位置处的元素
@@ -89,12 +117,22 @@ public class ArrayList {
 		return size;
 	}
 	
+	/**
+	 * 检查是否超容
+	 * @return
+	 */
+	private boolean checkCapacity() {
+		if(size >= data.length ) {
+			return false;
+		}
+		return true;
+	}
+	
 	public static void main(String[] args) {
-		ArrayList arr = new ArrayList();
+		ArrayList arr = new ArrayList(2);
 		arr.add(1);
 		arr.add(2);
 		arr.add(3);
-		arr.remove(1);
 		System.out.println(arr.toString());
 	}
 }
