@@ -11,6 +11,8 @@ import java.util.Arrays;
  * 1.基本储存单元  使用数组
  *   构造函数中 ArrayList(length):表示list中可以保存多少个元素
  * 2.CRUD的实现 ,并且为了简单起见
+ * 
+ * 3.其余方法有时间的补充
  */
 public class ArrayList {
 	
