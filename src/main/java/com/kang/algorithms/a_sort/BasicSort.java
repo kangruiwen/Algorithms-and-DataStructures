@@ -71,6 +71,18 @@ public class BasicSort {
 		}
 	}
 	
+	//插入排序，对数组中某一部分进行插入排序前闭后闭
+	public static void insertionSort(int[] arr, int lo, int hi) {
+		for(int i = lo + 1; i <= hi; i ++ ) {
+			int temp = arr[lo] ;
+			int j;
+			for(j = i; j > lo && temp < arr[j - 1] ; j-- ) {
+				arr[j] = arr[j - 1];
+			}
+			arr[j] = temp;
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {
 		int[] arr1 = SortTestHelper.generateRandomArray(100000, 1, 1000);
 		int[] arr2 = SortTestHelper.cloneArr(arr1);

@@ -2,7 +2,7 @@ package com.kang.algorithms.a_sort.complex;
 
 import java.util.Arrays;
 
-import com.kang.algorithms.a_sort.SortTestHelper;
+import com.kang.algorithms.a_sort.BasicSort;
 
 /**
  * @author momo
@@ -28,6 +28,12 @@ public class MergeSort {
 	//排序
 	public static void sort(int[] arr, int lo, int mid, int hi) {
 		
+		// 对归并排序的第二次优化，当需要排序的个数小于某个值的时候，选择插入排序
+		if(hi - lo <= 15) {
+			BasicSort.insertionSort(arr, lo, hi);
+			return;
+		}
+		
 		int[] tempArr = Arrays.copyOfRange(arr,lo,hi + 1);// Arrays 函数中的参数为 左闭右开区间
 		
 		int leftIndex = lo, rightIndex = mid + 1; 
@@ -52,7 +58,10 @@ public class MergeSort {
 		int mid = (lo + hi) / 2;
 		merge(arr, lo, mid);
 		merge(arr, mid + 1, hi);
-		sort(arr, lo, mid, hi);
+		
+		//1.对merge的第一次优化
+		if(arr[mid] > arr[mid + 1])
+			sort(arr, lo, mid, hi);
 	}
 	
 	//综合--左右是闭区间
@@ -64,8 +73,11 @@ public class MergeSort {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		int[] arr = SortTestHelper.generateRandomArray(100000, 0, 1000);
-		SortTestHelper.testSort(MergeSort.class, "mergeSort", arr);
+		/*int[] arr = SortTestHelper.generateRandomArray(10000000, 0, 10000);
+		SortTestHelper.testSort(MergeSort.class, "mergeSort", arr);*/
+		for(int i = 0 ; i < 10 ; i += 1 + 1) {
+			System.out.println(i + "  ");
+		}
 	}
 	
 }
