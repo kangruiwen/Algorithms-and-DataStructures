@@ -7,12 +7,24 @@ import com.kang.algorithms.a_sort.SortTestHelper;
  * @time 2017年8月24日下午2:04:11
  * 
  * 快速排序
+ * partition1 的思路：
+ * 
+ * [A][....<A][.....>A][C......]
+ *  |       |           |
+ *  |		|		  C元素遍历到的元素 i
+ *  |    这个是A现在
+ *  |    应该在的位置lo
+ *  |
+ * A为基准元素
+ * 
+ * 如果C < A 则应该将C放在小于A的那个部分，则可以说是要是小于A的那个部分扩大一个单位，所以我们是lo++，然后在和C对应的位置交换元素，则等于说是小于A的部分增加一个单位，而
+ * 大于A的部分向右平移一个单位，并且首尾交换了顺序，这时i++，遍历下一个元素，直到最后，并且最后由于，lo指向的是小于A的元素的最末尾下标，我们再和基准交换一下元素，这时基准就在其相应位置了
  * 
  */
 public class QuickSort {
 	
 	
-	// 对 arr中[lo...hi]部分的元素进行partition，下边这段简洁的代码也是可以的，但是自己并不理解，为什么
+	// 对 arr中[lo...hi]部分的元素进行partition
 	public static int partition1(int[] arr,int lo, int hi) {
 		//1.先拿出来基准
 		int temp = arr[lo];
