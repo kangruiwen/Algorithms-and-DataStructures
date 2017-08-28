@@ -15,8 +15,10 @@ import com.kang.algorithms.a_sort.SortTestHelper;
  * 1.由于当数组近乎有序的情况下，每次我们取基准的时候，可能某一方面（大于基准或小于基准）往往会占据绝大多数的元素，最坏的情况，递归树会退化为一个链表，从而整个方法的时间复杂度退化为O(N^2)级别
  * 所以我们优化为随机的在数组中选择基准，这样从统计意义上讲，时间复杂度的期望为O(NlogN)级别
  * 
- * 
  * 2.复杂的算法在最后几步优化为插入排序
+ * 
+ * 3.这是第一步优化，但是这个算法仍会在某种情况下退化，如果在数组中有大量的重复元素，例如：100W个元素，元素范围在0到10之间，这时算法复杂度一样会出现退化，退化的原因与上一节相同，同样是因为每次
+ * 的分配都严重不均衡，从而导致理想中的平衡二茶树退化为链表，对这样的问题，我们使用双路快速排序法进行解决可看：QuickSort2Way
  * 
  */
 public class QuickSortOptimize {
@@ -62,7 +64,7 @@ public class QuickSortOptimize {
 	
 	public static void main(String[] args) throws Exception {
 		
-		int[] arr = SortTestHelper.generateRandomArray(1000000, 0, 100000);
+		int[] arr = SortTestHelper.generateRandomArray(1000000, 0, 1000);
 		
 		SortTestHelper.testSort(QuickSortOptimize.class, "quickSort", arr);
 		
