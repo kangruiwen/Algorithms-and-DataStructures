@@ -38,6 +38,23 @@ import java.util.Random;
  * 
  * 最核心的两个步骤是：shiftUp,shiftDown,既通常说的上浮与下沉
  * 上浮操作：当向堆中新插入一个元素的时候由于破坏 
+ * 
+ * 
+ * Heapify的思路，举个栗子来说明：
+ * 对这样的一颗完全二叉树
+ *      1
+ *    /   \
+ *   2     3
+ *  / \   /  
+ * 4   5 6
+ * 有这样的一个性质(索引从1开始)，最后一个非叶子节点的索引是这颗树的元素个数除以2
+ * 就像3这个节点索引为3是最后一个非叶子节点，而这颗树元素个数为6，6/2 = 3 符合规律
+ * 在heapify中，我们由最后一个节点开始，是这个节点为最大堆，观察克制，所有叶子节点都可以看做为一个最大堆，所以就从最后一个非叶子节点开始使每个节点代表的一颗树的根，然后使这颗树变为最大最
+ * 继续上边的步骤，知道第一个节点
+ * 
+ * Heapify的算法复杂度：
+ * 1.将n个元素逐个插入到一个空堆中，算法复杂度为O(NlogN)
+ * 2.Heapify是直接讲一个数组进行原地的排序过程，算法复杂度为O(N)
  *
  */
 public class MaxHeap {
@@ -50,6 +67,24 @@ public class MaxHeap {
 		data = new int[catacity + 1];
 		count = 0;
 		this.capacity = catacity;
+	}
+	
+	/**
+	 * heapify的一个过程
+	 * @param arr
+	 */
+	public MaxHeap(int[] arr) {
+		
+		data = new int[arr.length + 1];
+		capacity  = arr.length;
+		for( int i = 0 ; i < arr.length ; i ++) {
+			data[i + 1] = arr[i];
+		}
+		count = capacity;
+		
+		for(int i = count / 2 ; i >= 1 ; i -- ) {
+			shiftDown(i);
+		}
 	}
 	
 	public int size() {
@@ -130,6 +165,20 @@ public class MaxHeap {
         // 确保arr数组是从大到小排列的
         for( int i = 1 ; i < N ; i ++ )
             assert arr[i-1] >= arr[i];
+            
+            
+            
+       int[] att = new int[100];
+       for(int i = 0; i < 100; i ++ ) {
+    	   att[i] = rand.nextInt(100);
+       }
+       
+       MaxHeap max = new MaxHeap(att);
+       for(int i = 0 ; i < 100; i ++) {
+    	   System.out.print(max.extractMax() + " ");
+       }
+       
+       
     }
 	
 }
