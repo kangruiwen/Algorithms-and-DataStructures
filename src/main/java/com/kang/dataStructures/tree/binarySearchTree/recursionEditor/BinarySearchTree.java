@@ -28,7 +28,18 @@ import java.util.Queue;
  * 		3.4 出队重复3.2，3.3,3.4步骤，直到最后一层，这样子就完成了层序遍历
  * 		说明：这个思路主要依托于队列的先进先出的数据结构
  *	4.删除的实现（应该是这个部分最难的地方）：
- *		4.1
+ *		4.1 删除最大、最小值（以最大值为例进行说明）
+ *			根据二叉搜索树的性质，一个节点的的值大于其左孩子，小于其右孩子，那么最大值一定是没有右孩子的节点,下边是其伪码
+ *				delete(node)  
+ *				if(node.right == null){
+ *					Node lnode = node.left;
+ *					count --;
+ *					node.left = null;
+ *					return lnode;
+ *				}
+ *				node.right = delete(node.right);
+ *				return node.right;
+ * 		4.2 删除任意元素，可看下边的6
  * 
  * 实现步骤：
  * 	1.节点的构造
@@ -52,9 +63,9 @@ import java.util.Queue;
  *         42  53  59  63
  *		我们要删除58，那么就要有一个元素来代替58，这个元素要满足，大于左子数小于右字数，那么右字数中的元素都大于左子树，所以右字数中的最小元素就是这个值
  *		上边这个过程可以总结为，拿掉右子树中最小值，并把这个值赋值给58的那个元素。     
- *    
+ *
  */
-public class BinarySearchTree {
+public class BinarySearchTree <Key extends Comparable<Key>, Value> {
 	
 	private int count;
 	private Node root; // 表示当前树的根节点
@@ -74,16 +85,16 @@ public class BinarySearchTree {
 	}
 	
 	// 查看二分搜索树中是否存在键key
-    public boolean contain(int key){
+    public boolean contain(Key key){
         return contain(root, key);
     }
 
     // 在二分搜索树中搜索键key所对应的值。如果这个值不存在, 则返回null
-    public Object search(int key){
+    public Value search(Key key){
         return search( root , key );
     }
     
-	public void insert(int key,String value) {
+	public void insert(Key key,Value value) {
 		// 对root节点为根的树添加健值为key-value的节点
 		insert(root,key,value);
 		count++;
@@ -106,21 +117,21 @@ public class BinarySearchTree {
 	
 	//层序遍历的实现
 	public void leaveOrder() {
-		Queue<Node> queue = new LinkedList<BinarySearchTree.Node>();
+		Queue<Node> queue = new LinkedList<Node>();
 		leaveOrder(root , queue);
 	}
 	
-	//最小值的查询，返回key
-	public int minnum () {
+	//最小值的查询，返回key,如果树为空则返回null
+	public Key minnum () {
 		if(root == null)
-			return -1;
+			return null;
 		return minnum(root).key;
 	}
 	
-	//最大值的查询，返回key
-	public int maxnum() {
+	//最大值的查询，返回key，如果树为空则返回null
+	public Key maxnum() {
 		if(root == null)
-			return -1;
+			return null;
 		return maxnum(root).key;
 	}
 	
@@ -139,7 +150,7 @@ public class BinarySearchTree {
 	}
 	
 	//删除任意节点
-	public void remove(int key) {
+	public void remove(Key key) {
 		if(root == null)
 			return;
 		root = remove(root,key);
@@ -225,20 +236,20 @@ public class BinarySearchTree {
 			return nodeLeft;
 		}
 		
-		node.rigth = deleteMin(node.rigth);
+		node.rigth = deleteMax(node.rigth);
 		return node;
 	}
 	
 	//删除任意元素
-	private Node remove(Node node, int key) {
+	private Node remove(Node node, Key key) {
 		
 		if(node == null) 
 			return null;
 		
-		if (node.key < key) {
+		if (node.key.compareTo(key) < 0) {
 			node.rigth = remove(node.rigth, key);
 			return node;
-		} else if (node.key > key) {
+		} else if (node.key.compareTo(key) > 0) {
 			node.left = remove(node.left, key);
 			return node;
 		} else {
@@ -276,41 +287,41 @@ public class BinarySearchTree {
 	}
 	
 	
-	private void insert(Node node, int key, String value) {
+	private void insert(Node node, Key key, Value value) {
 		 
 		if(node == null) 
 			node = new Node(key,value);
 		 
 		if(node.key == key) {
 			node.value = value;
-		}else if(node.key < key) {
+		}else if(node.key.compareTo(key) < 0) {
 			insert(node.rigth,key,value);
 		}else{
 			insert(node.left,key,value);
 		}
 	}
 	 
-	private Object search(Node node, int key) {
+	private Value search(Node node, Key key) {
 		 
 		if(node == null) 
 			return null;
 		 
-		if(node.key == key) {
+		if(node.key.compareTo(key) == 0) {
 			return node.value;
-		}else if(node.key < key) {
+		}else if(node.key.compareTo(key) < 0) {
 			return search(node.rigth,key);
 		}else{
 			 return search(node.left,key);
 		}
 	}
 	 
-	private boolean contain(Node node, int key) {
+	private boolean contain(Node node, Key key) {
 		if(node == null) 
 			return false;
 		 
-		if(node.key == key) {
+		if(node.key.compareTo(key) == 0) {
 			return true;
-		}else if(node.key < key) {
+		}else if(node.key.compareTo(key) < 0) {
 			return contain(node.rigth,key);
 		}else{
 			return contain(node.left,key);
@@ -319,13 +330,13 @@ public class BinarySearchTree {
 	 
 	private class Node {
 		
-		private int key;
-		private String value;
+		private Key key;
+		private Value value;
 		private Node left;
 		private Node rigth;
 		
 		// 树中的节点为私有的类, 外界不需要了解二分搜索树节点的具体实现
-		public Node(int key, String value) {
+		public Node(Key key, Value value) {
 			this.key = key;
 			this.value = value;
 			this.left = this.rigth = null;
@@ -338,5 +349,4 @@ public class BinarySearchTree {
             this.rigth = node.rigth;
         }
 	}
-	
 }
