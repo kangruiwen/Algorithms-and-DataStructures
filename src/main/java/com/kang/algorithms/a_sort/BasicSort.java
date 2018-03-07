@@ -84,7 +84,7 @@ public class BasicSort {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		int[] arr1 = SortTestHelper.generateRandomArray(100000, 1, 1000);
+		int[] arr1 = SortTestHelper.generateRandomArray(1000000, 1, 100000);
 		int[] arr2 = SortTestHelper.cloneArr(arr1);
 		SortTestHelper.testSort(BasicSort.class, "insertionSort2", arr2);
 		

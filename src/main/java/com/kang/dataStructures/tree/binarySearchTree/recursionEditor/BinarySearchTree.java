@@ -1,7 +1,6 @@
 package com.kang.dataStructures.tree.binarySearchTree.recursionEditor;
 
 import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * @author momo
@@ -117,8 +116,17 @@ public class BinarySearchTree <Key extends Comparable<Key>, Value> {
 	
 	//层序遍历的实现
 	public void leaveOrder() {
-		Queue<Node> queue = new LinkedList<Node>();
-		leaveOrder(root , queue);
+		// 我们使用LinkedList来作为我们的队列
+        LinkedList<Node> q = new LinkedList<Node>();
+        q.add(root);
+        while( !q.isEmpty() ){
+            Node node = q.remove();
+            System.out.println(node.key);
+            if( node.left != null )
+                q.add( node.left );
+            if( node.rigth != null )
+                q.add( node.rigth );
+        }
 	}
 	
 	//最小值的查询，返回key,如果树为空则返回null
@@ -185,15 +193,6 @@ public class BinarySearchTree <Key extends Comparable<Key>, Value> {
 		System.out.println(node.value);
 	}
 	
-	//层序
-	private void leaveOrder(Node node,Queue<Node> queue) {
-		if(node == null) return; //出口
-		queue.offer(node);
-		Node temp = queue.poll();
-		System.out.println(temp.value);
-		leaveOrder(temp.left,queue);
-		leaveOrder(temp.rigth,queue);
-	}
 	
 	//查询最小值
 	private Node minnum(Node node) {
