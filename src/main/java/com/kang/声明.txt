@@ -1,1 +1,5 @@
-文中部分总结自：https://github.com/liuyubobobo/Play-with-Algorithms.git
+文中部分总结自：
+算法类：
+https://github.com/liuyubobobo/Play-with-Algorithms.git
+数据结构类：
+http://www.cnblogs.com/skywang12345/p/3603935.html

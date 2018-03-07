@@ -23,7 +23,8 @@ public class SparseGraph {
     private Vector<Integer>[] g; // 图的具体数据
 
     // 构造函数
-    public SparseGraph( int n , boolean directed ){
+    @SuppressWarnings("unchecked")
+	public SparseGraph( int n , boolean directed ){
         assert n >= 0;
         this.n = n;
         this.m = 0;    // 初始化没有任何边
