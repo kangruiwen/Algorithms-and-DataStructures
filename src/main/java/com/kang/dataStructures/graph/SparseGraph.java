@@ -15,7 +15,7 @@ import java.util.Vector;
  * vector4 : 3
  * 其中vectori表示节点i，后边跟的数字表示的是节点i与节点j想链接
  */
-public class SparseGraph {
+public class SparseGraph implements Graph{
 
     private int n;  // 节点数
     private int m;  // 边数
@@ -52,7 +52,7 @@ public class SparseGraph {
     }
 
     // 验证图中是否有从v到w的边
-    boolean hasEdge( int v , int w ){
+    public boolean hasEdge( int v , int w ){
 
         assert v >= 0 && v < n ;
         assert w >= 0 && w < n ;
@@ -61,6 +61,16 @@ public class SparseGraph {
             if( g[v].elementAt(i) == w )
                 return true;
         return false;
+    }
+    
+ // 显示图的信息
+    public void show(){
+        for( int i = 0 ; i < n ; i ++ ){
+            System.out.print("vertex " + i + ":\t");
+            for( int j = 0 ; j < g[i].size() ; j ++ )
+                System.out.print(g[i].elementAt(j) + "\t");
+            System.out.println();
+        }
     }
 
     // 返回图中一个顶点的所有邻边
